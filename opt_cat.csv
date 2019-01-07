@@ -1,0 +1,7 @@
+optn_cat_id,optn_cat,optn_cat_alias
+1,Dash,Steering
+2,Exterior,NULL
+3,Seats,NULL
+4,"Mechanical Options",NULL
+5,"Entertainment Options",NULL
+6,Packages,NULL
