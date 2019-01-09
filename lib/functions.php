@@ -9,7 +9,7 @@
 //use infobip\api\model\sms\mt\send\textual\SMSTextualRequest;
 
 function connect(){
-    $mysqli = new mysqli("localhost", "root", "godzilla", "carmax");
+    $mysqli = new mysqli("localhost", "optionex_admin", "4pata34nasa25na!", "optionex_db");
     return $mysqli;
 }
 function fetchAssocStatement($stmt)
