@@ -166,7 +166,7 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                 }elseif(strtolower($btype)=="passenger car"){
                                     $qry="SELECT * FROM options WHERE cars =1 AND optn_cat_id=".$row2['optn_cat_id'];
                                 }elseif(strtolower($btype)=="multipurpose passenger vehicle (mpv)"){
-                                    $qry="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id']." AND vans =1 OR suv =1";
+                                    $qry="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id']." AND (vans =1 OR suv =1)";
                                 }else{
                                     $qry ="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id'];
                                 }
