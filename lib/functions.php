@@ -10,6 +10,7 @@
 
 function connect(){
     $mysqli = new mysqli("localhost", "optionex_admin", "4pata34nasa25na!", "optionex_db");
+	//$mysqli = new mysqli("localhost", "root", "godzilla", "carmax");
     return $mysqli;
 }
 function fetchAssocStatement($stmt)
