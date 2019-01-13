@@ -3,6 +3,19 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require 'top.php';
+if(isset($action)){
+    $_SESSION['VIN']=$VIN;
+    $car = VinSearch($VIN);
+    $msg = explode(" ", $car->Results[1]->Value);
+$msg1 = explode(";", $car->Results[1]->Value);
+$caryear = $car->Results[8]->Value;
+$carmake = $car->Results[5]->Value;
+$carmodel =$car->Results[7]->Value;
+}else{
+  $caryear = "2011";
+$carmake = "Honda";
+$carmodel ="Civic";  
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,12 +109,9 @@ require 'top.php';
                 </div>
 <?php
 if(isset($action)){
-    $_SESSION['VIN']=$VIN;
-    $car = VinSearch($VIN);
-    $msg = explode(" ", $car->Results[1]->Value);
-$msg1 = explode(";", $car->Results[1]->Value);
+    
 if($msg[0]==0){
-    $car1 = returnVehicle($car->Results[5]->Value, $car->Results[7]->Value);
+    $car1 = returnVehicle($car->Results[5]->Value, $car->Results[7]->Value, $car->Results[11]->Value);
 ?>
                 <div class="row">
                     
@@ -109,6 +119,7 @@ if($msg[0]==0){
                     <div class="row">
                         <div class="card-box">
 
+                            <div class="row">
                             <div class="col-lg-2">
                             <select class="form-control select2" name="year">
                                 <?php 
@@ -121,8 +132,7 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                     ?>
                             </select>
                             </div>
-                            
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                             <select class="form-control select2" name="make">
                                 <?php 
                                     $stmt= $mysqli->prepare("SELECT make, make_id FROM makes");
@@ -135,7 +145,7 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                     ?>
                             </select>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                             <select class="form-control select2" name="model">
                                 <?php 
                                     $stmt= $mysqli->prepare("SELECT model, model_id FROM model");
@@ -148,8 +158,25 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                     ?>
                             </select>
                             </div>
+                                <div class="col-lg-2">
+                                    <select class="form-control select2" name="car-model-trims" id="car-model-trims">
+                                        <option value="">no trim</option>
+                                        <?php
+                                        $trims = returnTrims($carmake, $carmodel, $caryear);
+                                        $selectt = explode(",", $trims);
+                                        foreach ($selectt as $value) {
+                                            echo "<option>".$value."</option>";
+                                        }
+                                        ?>
+                                    </select> 
+                            
+                            </div>
+                            </div>
                             <div class="clearfix"></div><br>
-
+<div class="row">
+    
+                            </div>
+                            <div class="clearfix"></div><br>
                             <?php
                             $stmt = $mysqli->prepare("SELECT * FROM option_cat WHERE optn_cat_id!=6");
                             $stmt->execute();
@@ -166,7 +193,7 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                 }elseif(strtolower($btype)=="passenger car"){
                                     $qry="SELECT * FROM options WHERE cars =1 AND optn_cat_id=".$row2['optn_cat_id'];
                                 }elseif(strtolower($btype)=="multipurpose passenger vehicle (mpv)"){
-                                    $qry="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id']." AND (vans =1 OR suv =1)";
+                                    $qry="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id']." AND (vans = 1 OR suv = 1)";
                                 }else{
                                     $qry ="SELECT * FROM options WHERE optn_cat_id=".$row2['optn_cat_id'];
                                 }
