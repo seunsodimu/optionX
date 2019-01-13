@@ -37,6 +37,29 @@ $car = json_decode($vin_details);
 return $car;
 }
 
+
+function returnTrims($make, $model, $year){
+$trimpath ='https://www.carqueryapi.com/api/0.3/?cmd=getTrims&make='.$make.'&model='.$model.'&year='.$year; 
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_URL, $trimpath);
+$result = curl_exec($ch);
+curl_close($ch);
+$obj = json_decode($result);
+$obj = array($obj->Trims);
+$trims="";
+$first=0;
+$last=substr_count($result, "model_trim") - 1;
+foreach ($obj as $key=>$value) {    
+    for($i=$first;$i<=$last;$i++){
+    $trims .= $value[$i]->model_trim.",";
+    }
+}
+$trims = rtrim($trims, ",");
+return $trims;
+}
+
 function returnVehicle($make, $model){
     $mysqli=  connect();
     $make= strtoupper($make);
