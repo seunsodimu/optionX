@@ -174,15 +174,74 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                             </div>
                             <div class="clearfix"></div><br>
 <div class="row">
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Engine(L)</label>
+            <input type="number" value="<?php echo $car->Results[69]->Value; ?>" name="EngL" class="form-control" id="demo1"/>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Cyl</label>
+            <select class="form-control select2" name="cyl">
+                <option>0</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+            </select>
+        </div>
+    </div>
     
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Transmission</label>
+            <select class="form-control select2" name="transmission">
+                <option>Automatic</option>
+                <option>Manual 2 speeds</option>
+                <option>Manual 3 speeds</option>
+                <option>Manual 4 speeds</option>
+                <option>Manual 5 speeds</option>
+                <option>Manual 6 speeds</option>
+                <option>Manual 7 speeds</option>
+                <option>Manual 8 speeds</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Drive</label>
+            <select class="form-control select2" name="drive">
+                <option>2WD/FWD/RWD</option>
+                <option>4WD/AWD</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Exterior Color</label>
+            <select class="form-control select2" name="colr_ext">
+                <option>Black</option>
+                <option>Blue</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group"><label class="control-label">Interior Color</label>
+            <select class="form-control select2" name="colr_int">
+                <option>Black</option>
+                <option>Blue</option>
+            </select>
+        </div>
+    </div>
                             </div>
                             <div class="clearfix"></div><br>
                             <?php
                             $stmt = $mysqli->prepare("SELECT * FROM option_cat WHERE optn_cat_id!=6");
                             $stmt->execute();
                             $stmt->store_result();
-                            while($row2=  fetchAssocStatement($stmt)){
-                                if($row2['optn_cat_alias']==""){
+                            while($row2=  fetchAssocStatement($stmt)){ ?>
+                            <table class="table table-bordered m-0">
+                                <?php if($row2['optn_cat_alias']==""){
                                 echo "<h5><b>".$row2['optn_cat']."</b><h5>";
                                 }else{
                                 echo "<h5><b>".$row2['optn_cat']."/".$row2['optn_cat_alias']."</b><h5>";    
@@ -202,13 +261,29 @@ for($i=$firstYear;$i<=$lastYear;$i++)
                                 $stmt1->execute();
                                 $stmt1->store_result();
                                 while($row3=  fetchAssocStatement($stmt1)){
-                            ?>
-                            <div class="switchery-demo">
+                                    ?><tr>
+                                        <td> <div class="switchery-demo">
                                 <?php echo $row3['option']; ?> <input type="checkbox" checked data-plugin="switchery" data-color="#00b19d" data-size="small"/> 
-                            </div>
+                                            </div></td>
+                                            <td>
+                                        <?php if($row3['description']!=""){ ?>
+                                        <button tabindex="1" class="btn btn-default" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="<?php echo $row3['description']; ?>" data-original-title="<?php echo $row3['option']; ?>">
+                                                    <i class="fa fa-info-circle"></i>
+                                        </button>
+                                        <?php } ?>
+                                            </td>
+                                            <td>
+                                                <?php if($row3['img_']!=""){ ?>
+                                        <button tabindex="1" class="btn btn-default" role="button">
+                                            <a target="_blank" href="assets/files/<?php echo $row3['img_']; ?>" <i class="fa fa-image"></i></a>
+                                        </button>
+                                        <?php } ?>
+                                            </td>
+                                            <td></td>
+                                    </tr>
                                 <?php }
                                 $stmt1->close();
-                                
+                                echo "</table>";
                                 }$stmt->close();
                                 ?>
 
