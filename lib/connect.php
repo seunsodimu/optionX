@@ -1,6 +1,6 @@
 <?php
-$mysqli = new mysqli("localhost", "optionex_admin", "4pata34nasa25na!", "optionex_db");
-//$mysqli = new mysqli("localhost", "root", "godzilla", "carmax");
+$mysqli = new mysqli("localhost", "", "", "");
+//$mysqli = new mysqli("localhost", "", "", "");
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
